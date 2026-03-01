@@ -94,3 +94,63 @@ playBtn.addEventListener('click', () => {
         playBtn.textContent = '播放';
     }
 });
+
+// 6. 粒子动效
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+const SYMBOLS = ['♪', '♫', '♩', '✦', '·', '✧'];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+    constructor() { this.reset(true); }
+    reset(initial = false) {
+        this.x = Math.random() * canvas.width;
+        this.y = initial ? Math.random() * canvas.height : canvas.height + 20;
+        this.symbol = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
+        this.size = 10 + Math.random() * 14;
+        this.speedY = 0.4 + Math.random() * 0.8;
+        this.speedX = (Math.random() - 0.5) * 0.5;
+        this.alpha = 0;
+        this.alphaDir = 0.01 + Math.random() * 0.015;
+        this.maxAlpha = 0.15 + Math.random() * 0.25;
+    }
+    update() {
+        this.y -= this.speedY;
+        this.x += this.speedX;
+        if (this.alpha < this.maxAlpha) this.alpha += this.alphaDir;
+        if (this.y < canvas.height * 0.3) this.alpha -= this.alphaDir * 1.5;
+        if (this.alpha <= 0 || this.y < -20) this.reset();
+    }
+    draw() {
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, this.alpha);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = `${this.size}px serif`;
+        ctx.textAlign = 'center';
+        ctx.fillText(this.symbol, this.x, this.y);
+        ctx.restore();
+    }
+}
+
+const particles = Array.from({ length: 30 }, () => new Particle());
+let animationId = null;
+
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    animationId = requestAnimationFrame(animateParticles);
+}
+
+audio.addEventListener('play', () => {
+    if (!animationId) animateParticles();
+});
+audio.addEventListener('pause', () => {
+    if (animationId) { cancelAnimationFrame(animationId); animationId = null; }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+});
