@@ -98,7 +98,7 @@ playBtn.addEventListener('click', () => {
 // 6. 粒子动效
 const canvas = document.getElementById('particle-canvas');
 const ctx = canvas.getContext('2d');
-const SYMBOLS = ['♪', '♫', '♩', '✦', '·', '✧'];
+const SYMBOLS = ['♪', '♫', '♩', '✦', '·', '✧', '♡', '❤', '💕', '💗'];
 
 function resizeCanvas() {
     canvas.width = window.innerWidth;
