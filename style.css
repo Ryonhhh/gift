@@ -1,0 +1,66 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: #1a1a1a; /*深色背景 */
+    color: #fff;
+    font-family: sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    text-align: center;
+    width: 100%;
+    max-width: 400px; /* 模拟手机宽度 */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.header { flex: 0 0 100px; } /* 顶部留白 */
+
+/* 歌词区域核心样式 */
+.lyrics-container {
+    flex: 1; /* 占据剩余空间 */
+    overflow: hidden; /* 隐藏超出的歌词 */
+    position: relative;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+}
+
+#lyrics-list {
+    list-style: none;
+    transition: transform 0.3s ease-out; /* 滚动的平滑动画 */
+    padding-top: 50%; /* 让第一句歌词出现在中间 */
+}
+
+#lyrics-list li {
+    padding: 10px 0;
+    color: #888;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+/* 高亮样式 */
+#lyrics-list li.active {
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+.controls { flex: 0 0 80px; display: flex; justify-content: center; align-items: center; }
+
+#play-btn {
+    padding: 10px 30px;
+    background: #ff4081;
+    border: none;
+    color: white;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
